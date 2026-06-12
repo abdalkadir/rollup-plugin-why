@@ -21,14 +21,14 @@
     "test": "vitest run",
     "prepublishOnly": "npm run build && npm test"
   },
-  "author": "abdelgzali <abdalkadir.mae@gmail.com>",
+  "author": "abdalkadir <abdalkadir.mae@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/abdelgzali/rollup-plugin-why.git"
+    "url": "git+https://github.com/abdalkadir/rollup-plugin-why.git"
   },
-  "homepage": "https://github.com/abdelgzali/rollup-plugin-why#readme",
+  "homepage": "https://github.com/abdalkadir/rollup-plugin-why#readme",
   "bugs": {
-    "url": "https://github.com/abdelgzali/rollup-plugin-why/issues"
+    "url": "https://github.com/abdalkadir/rollup-plugin-why/issues"
   },
   "keywords": [
     "rollup",
