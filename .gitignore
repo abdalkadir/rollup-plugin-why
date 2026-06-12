@@ -1,0 +1,4 @@
+# Root dependencies only — test/fixtures/**/node_modules are real fixtures
+/node_modules
+/dist
+/out

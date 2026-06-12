@@ -1,0 +1,70 @@
+{
+  "name": "rollup-plugin-why",
+  "version": "0.1.0",
+  "description": "Explains why a module ended up in your Rollup or Vite bundle: shortest import chains, side-effect-retained code, and per-package size attribution.",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "test": "vitest run",
+    "prepublishOnly": "npm run build && npm test"
+  },
+  "author": "abdelgzali <abdalkadir.mae@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abdelgzali/rollup-plugin-why.git"
+  },
+  "homepage": "https://github.com/abdelgzali/rollup-plugin-why#readme",
+  "bugs": {
+    "url": "https://github.com/abdelgzali/rollup-plugin-why/issues"
+  },
+  "keywords": [
+    "rollup",
+    "rollup-plugin",
+    "vite",
+    "vite-plugin",
+    "tree-shaking",
+    "treeshake",
+    "bundle-size",
+    "bundle-analysis",
+    "side-effects",
+    "module-graph"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "peerDependencies": {
+    "rollup": "^3.0.0 || ^4.0.0"
+  },
+  "peerDependenciesMeta": {
+    "rollup": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "picocolors": "^1.1.1"
+  },
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^16.0.0",
+    "@rollup/plugin-typescript": "^12.1.2",
+    "@types/node": "^22.10.0",
+    "rollup": "^4.30.0",
+    "rollup-plugin-dts": "^6.1.1",
+    "tslib": "^2.8.1",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  }
+}
