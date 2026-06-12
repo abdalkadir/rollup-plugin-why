@@ -120,6 +120,48 @@ why({
 })
 ```
 
+## AI / agentic development checks
+
+When code is written or refactored by an AI agent, bundle composition is exactly the kind of thing that regresses silently: the agent reaches for a convenient dependency, swaps a deep import for a barrel import, or adds a top-level side effect — and the bundle quietly grows or stops tree-shaking. Because this plugin reports what Rollup *actually decided* (no heuristics, no source parsing), its output is deterministic and machine-readable, which makes it a good fit for automated loops.
+
+### As a performance gate on agent-generated changes
+
+Run the build in CI (or a pre-merge hook) and fail when a change crosses a size budget, pulls in a banned package, or breaks tree-shaking. `onReport` hands you the full report — throw to fail the build:
+
+```js
+why({
+  print: false,
+  onReport(report) {
+    // Per-package size budgets.
+    const BUDGETS = { 'lodash-es': 20_000, 'date-fns': 15_000 };
+    for (const [pkg, max] of Object.entries(BUDGETS)) {
+      const size = report.packages[pkg]?.renderedLength ?? 0;
+      if (size > max) throw new Error(`${pkg} is ${size} B, over its ${max} B budget`);
+    }
+    // Catch tree-shaking regressions: modules kept only for their side effects.
+    if (report.sideEffectRetained.length > 0) {
+      const ids = report.sideEffectRetained.map((m) => m.id).join(', ');
+      throw new Error(`unexpected side-effect-retained modules: ${ids}`);
+    }
+  },
+})
+```
+
+### As a feedback signal inside an agent loop
+
+Emit the JSON report and feed it back to the agent so it can see the consequence of its edit and self-correct:
+
+```js
+why({ print: false, json: 'why-report.json' })
+```
+
+```
+build the project → read dist/why-report.json → if a banned package or an
+unexpected import chain appears, revise the code and rebuild
+```
+
+The report is small, structured JSON (`explained`, `sideEffectRetained`, `packages`), so it drops straight into a tool result or prompt with no post-processing. Crucially, each entry's `chain` field gives the agent the exact import path to fix — e.g. `src/index.js → src/date.js → moment` — instead of a vague "the bundle got bigger" signal it can't act on. Pair it with `filter` to keep the agent focused on the packages you care about, and the output stays stable across runs because it mirrors Rollup's own decisions rather than re-deriving them.
+
 ## Notes & limitations
 
 - `renderedLength` is measured before minification, the same number Rollup reports per chunk module.
