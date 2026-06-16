@@ -1,6 +1,6 @@
 {
   "name": "rollup-plugin-why",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Explains why a module ended up in your Rollup or Vite bundle: shortest import chains, side-effect-retained code, and per-package size attribution.",
   "type": "module",
   "main": "./dist/index.cjs",
